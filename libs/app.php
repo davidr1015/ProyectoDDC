@@ -14,10 +14,10 @@ class App {
 
         //Cuando se ingresa sin definir controlador
         if (empty($url[0])) {
-            $archivoController = 'controllers/main.php';
+            $archivoController = 'controllers/inventario.php';
             require_once $archivoController;
-            $controller = new Main();
-            $controller->loadModel('main');
+            $controller = new Inventario();
+            $controller->loadModel('inventario');
             $controller->render();
             return false;
         }

@@ -70,7 +70,7 @@ class BodegasModel extends Model
     }
 
     public function delete($id) {
-        $query = $this->db->connect()->prepare("UPDATE productos SET activo = 0 WHERE id = :id");
+        $query = $this->db->connect()->prepare("UPDATE bodegas SET activo = 0 WHERE id = :id");
 
         try {
             $query->execute([

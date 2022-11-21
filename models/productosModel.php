@@ -28,10 +28,10 @@ class ProductosModel extends Model
     public function insert($datos) {
         $codigo = $datos['referencia'];
         $descripcion = $datos['descripcion'];
-        
+        $foto = $datos['foto'];
             try {
-                $query = $this->db->connect()->prepare('INSERT INTO productos (codigo, descripcion, activo) VALUES (:codigo, :descripcion,1)');
-                $query->execute(['codigo' => $codigo, 'descripcion' => $descripcion]);
+                $query = $this->db->connect()->prepare('INSERT INTO productos (codigo, descripcion, foto, activo) VALUES (:codigo, :descripcion, :foto, 1)');
+                $query->execute(['codigo' => $codigo, 'descripcion' => $descripcion, 'foto'=> $foto]);
                 return true;
             } catch (PDOException $e) {
                 return false;

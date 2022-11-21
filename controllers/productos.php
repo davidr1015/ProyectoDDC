@@ -27,27 +27,70 @@ class Productos extends Controller
         $this->view->render('productos/nuevo');
     }
 
+    function createName()
+    {
+        $cons = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        $cadena = "";
+
+        $length = sizeof($cons);
+
+        for ($i = 0; $i < 45; $i++) {
+
+            $cadena .= $cons[rand(0, $length - 1)];
+        }
+
+        return $cadena;
+    }
+
 
     function registrarProducto()
     {
+        $this->view->titulo = "Nuevo Producto";
+        $mensaje = "";
+
         $referencia  = strtoupper($_POST['referencia']);
         $descripcion = $_POST['descripcion'];
 
-        $mensaje = "";
+        $producto = ['referencia' => $referencia, 'descripcion' => $descripcion];
+        $fotoName = $_FILES['foto']['name'];
+        $foto = $_FILES['foto']['tmp_name'];
+        $newFotoName = $this->createName() . "-" . $referencia . ".jpg";
+
+
+        if (empty($_FILES['foto']['name'])) {
+            $ruta = NULL;
+        } else {
+            $permitidos = array("image/jpg", "image/png", "image/jpeg");
+            // echo $_FILES['foto']['type'];
+            if (in_array($_FILES['foto']["type"], $permitidos)) {
+                $ruta = 'fotos';
+                $ruta =  $ruta . "/" . $newFotoName;
+            } else {
+                $mensaje = "El formato de la foto es incorrecto";
+                $this->view->mensaje = $mensaje;
+                $this->view->producto = $producto;
+                $this->view->render('productos/nuevo');
+                
+                die();
+            }
+            
+        }
+
+        
 
         //Verifiva que la referencia no exista
         if ($this->model->existReference($referencia) > 0) {
-            $this->view->titulo = "Nuevo Producto";
             $mensaje = "Esta refencia ya ha sido registrada anteriormente";
             $this->view->mensaje = $mensaje;
             $this->view->render('productos/nuevo');
         } else {
-            if ($this->model->insert(['referencia' => $referencia, 'descripcion' => $descripcion])) {
+            if ($this->model->insert(['referencia' => $referencia, 'descripcion' => $descripcion, 'foto' => $ruta])) {
                 $mensaje = "Producto registrado correctamente";
+                $route = "public/" . $ruta;
+                move_uploaded_file($foto, $route);
                 $this->view->mensaje = $mensaje;
                 $this->render();
             } else {
-                $this->view->titulo = "Nuevo Producto";
                 $mensaje = "Ocurrió un error al registrar este producto";
                 $this->view->mensaje = $mensaje;
                 $this->view->render('productos/nuevo');

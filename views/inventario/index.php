@@ -39,7 +39,7 @@
                   <td>
                     <div class="d-flex px-1 py-1">
                       <div>
-                        <img src="<?php echo constant('URL'); ?>public/img/team-2.jpg" class="avatar avatar-xl me-3" alt="user1">
+                        <img src="<?php echo constant('URL'); ?>public/<?php echo $row['foto']; ?>" class="avatar avatar-xl me-3" alt="user1">
                       </div>
                     </div>
                   </td>
@@ -50,10 +50,10 @@
                     <p class="text-xs font-weight-bold mb-0"><?php echo $row['descripcion']; ?></p>
                   </td>
                   <td class="align-middle text-center text-sm">
-                    <p class="text-xs font-weight-bold mb-0"><?php echo $row['sumKilos'] . " Kg"; ?>
+                    <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $row['sumKilos'] , 2,".", ","). " Kg"; ?>
                   </td>
                   <td class="align-middle text-center text-sm">
-                    <p class="text-xs font-weight-bold mb-0"><?php echo $row['sumBultos']; ?>
+                    <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $row['sumBultos'] , 0,".", ","). " Bultos"; ?>
                   </td>
 
 
@@ -84,7 +84,7 @@ foreach ($this->productos as $row) { ?>
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Bodegas</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn btn-outline-secondary mb-0" data-bs-dismiss="modal" aria-label="Close">CERRAR</button>
         </div>
         <div class="modal-body">
           <div class="table-responsive p-0">
@@ -111,10 +111,10 @@ foreach ($this->productos as $row) { ?>
                       <p class="text-xs font-weight-bold mb-0"><?php echo $bodega['nombre']; ?></p>
                     </td>
                     <td class="align-middle text-center text-sm">
-                      <p class="text-xs font-weight-bold mb-0"><?php echo $bodega['sumKilos']; ?></p>
+                      <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $bodega['sumKilos'] , 2,".", ","). " Kg"; ?></p>
                     </td>
                     <td class="align-middle text-center text-sm">
-                      <p class="text-xs font-weight-bold mb-0"><?php echo $bodega['sumBultos']; ?></p>
+                      <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $bodega['sumBultos'] , 0,".", ","). " Bultos"; ?></p>
                     </td>
                   </tr>
 
@@ -122,15 +122,15 @@ foreach ($this->productos as $row) { ?>
 
                 <?php foreach ($bodega['lotes'] as $lote) { 
                   ?>
-                  <tr class="text-danger">
+                  <tr class="text-black-50">
                     <td class="align-middle text-center text-sm">
                     <p class="text-xs font-weight-bold mb-0"><?php echo "Lote " . $lote['lote']; ?></p>
                     </td>
                     <td class="align-middle text-center text-sm">
-                    <p class="text-xs font-weight-bold mb-0"><?php echo $lote['kilos']; ?></p>
+                    <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $lote['kilos'] , 2,".", ","). " Kg"; ?></p>
                     </td>
                     <td class="align-middle text-center text-sm">
-                    <p class="text-xs font-weight-bold mb-0"><?php echo $lote['bultos']; ?></p>
+                    <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $lote['bultos'] , 0,".", ","). " Bultos"; ?></p>
                     </td>
                   </tr>
                 <?php } 

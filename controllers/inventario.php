@@ -12,41 +12,39 @@ class Inventario extends Controller
     }
 
 
-    function render(){
-        $productos = $this->model->getProducts();  
+    function render()
+    {
+        $productos = $this->model->getProducts();
         $pr = [];
-        
-
 
         foreach ($productos as $producto) {
-         $id_producto = $producto['id_producto'];
-         $id_bodega = $this->model->getBodegas($id_producto);
-         $bg = [];
-         
-                
-        foreach ($id_bodega as $bodega) {
-            $lotes = $this->model->getLotes(['idProducto' => $id_producto, 'idBodega' => $bodega['id_bodega']]);
+            $id_producto = $producto['id_producto'];
+            $id_bodega = $this->model->getBodegas($id_producto);
+            $bg = [];
 
-            $bodega['lotes'] = $lotes;
 
-            // var_dump($bodega['lotes']);
-            // echo "<br>";
-            array_push($bg,$bodega);
-    
-            // var_dump($lotes);
-            // echo "<br>";
-        } 
-        $producto['bodegas'] = $bg;
-       
-        array_push($pr, $producto);
-                
+            foreach ($id_bodega as $bodega) {
+                $lotes = $this->model->getLotes(['idProducto' => $id_producto, 'idBodega' => $bodega['id_bodega']]);
+
+                $bodega['lotes'] = $lotes;
+
+                // var_dump($bodega['lotes']);
+                // echo "<br>";
+                array_push($bg, $bodega);
+
+                // var_dump($lotes);
+                // echo "<br>";
+            }
+            $producto['bodegas'] = $bg;
+
+            array_push($pr, $producto);
         }
-         
-        
 
-     $this->view->productos = $pr;
-     $this->view->titulo = "Inventario";
-     $this->view->render('inventario/index');
+
+
+        $this->view->productos = $pr;
+        $this->view->titulo = "Inventario";
+        $this->view->render('inventario/index');
     }
 
 
@@ -54,34 +52,6 @@ class Inventario extends Controller
     {
         $this->view->titulo = "Nuevo Producto";
         $this->view->render('productos/nuevo');
-    }
-
-
-    function registrarProducto()
-    {
-        $referencia  = strtoupper($_POST['referencia']);
-        $descripcion = $_POST['descripcion'];
-
-        $mensaje = "";
-
-        //Verifiva que la referencia no exista
-        if ($this->model->existReference($referencia) > 0) {
-            $this->view->titulo = "Nuevo Producto";
-            $mensaje = "Esta refencia ya ha sido registrada anteriormente";
-            $this->view->mensaje = $mensaje;
-            $this->view->render('productos/nuevo');
-        } else {
-            if ($this->model->insert(['referencia' => $referencia, 'descripcion' => $descripcion])) {
-                $mensaje = "Producto registrado correctamente";
-                $this->view->mensaje = $mensaje;
-                $this->render();
-            } else {
-                $this->view->titulo = "Nuevo Producto";
-                $mensaje = "Ocurrió un error al registrar este producto";
-                $this->view->mensaje = $mensaje;
-                $this->view->render('productos/nuevo');
-            }
-        }
     }
 
 

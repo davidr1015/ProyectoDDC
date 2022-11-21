@@ -14,7 +14,7 @@ class InventarioModel extends Model
         $items = [];
 
         try {
-            $query = $this->db->connect()->query("SELECT DISTINCT id_producto, codigo, descripcion, sum(kilos) as sumKilos, sum(bultos) as sumBultos 
+            $query = $this->db->connect()->query("SELECT DISTINCT id_producto, codigo, descripcion, sum(kilos) as sumKilos, sum(bultos) as sumBultos, foto 
             FROM producto_bodega INNER JOIN productos on id_producto = productos.id
             GROUP BY(id_producto)");
 

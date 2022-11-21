@@ -37,7 +37,7 @@
                   <td>
                     <div class="d-flex px-1 py-1">
                       <div>
-                        <img src="<?php echo constant('URL'); ?>public/img/team-2.jpg" class="avatar avatar-xl me-3" alt="user1">
+                        <img src="<?php echo constant('URL'); ?>public/<?php echo $row['foto'];?>" class="avatar avatar-xl me-3" alt="user1">
                       </div>
                     </div>
                   </td>

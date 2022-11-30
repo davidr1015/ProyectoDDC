@@ -51,76 +51,151 @@ class Inventario extends Controller
     function nuevo()
     {
         $this->view->titulo = "Nuevo Producto";
-        $this->view->render('productos/nuevo');
+        $this->view->render('inventario/nuevo');
     }
 
 
-    function verProducto($param = null)
+
+    public function buscarPorCodigo()
     {
-        $idProducto = $param[0];
-        $producto = $this->model->getById($idProducto);
+        // if (isset($_POST['buscar'])) {
+        $referencia = $_POST['referencia'];
+        // $referencia = 'P0212';
+        $valores = array();
+        $valores['existe'] = "0";
 
-        $this->view->titulo = "Editar Producto";
-        $this->view->mensaje = "";
-        $this->view->producto = $producto;
-        $this->view->render('productos/editar');
-    }
 
-    function actualizarProducto()
-    {
-        $id = $_POST['id'];
-        $referencia = strtoupper($_POST['referencia']);
-        $descripcion = $_POST['descripcion'];
-        $registrada = false;
+        $producto = $this->model->getByReference($referencia);
 
-        $productoAct = $this->model->getById($id);
+        // echo "Producto <br>";
+        //        var_dump($producto);
+        if ($producto) {
 
-        //Verifica que la referencia no cambio
-        if (strtoupper($productoAct['codigo']) == strtoupper($referencia)) {
-            if ($this->model->update(['id' => $id, 'codigo' => $referencia, 'descripcion' => $descripcion])) {
-                $registrada = true;
-            } else {
-                $this->view->mensaje = "Error al actualizar el producto";
-                $producto = ['id' => $id, 'referencia' => $referencia, 'descripcion' => $descripcion];
+            $id_producto = $producto['id_producto'];
+            $id_bodega = $this->model->getBodegas($id_producto);
+
+            $bg = [];
+
+
+            foreach ($id_bodega as $bodega) {
+                array_push($bg, $bodega);
             }
-        } else {
-            // Si la referencia cambio, verifica que la nueva no haya sido registrada
-            if ($this->model->existReference($referencia) > 0) {
-                $this->view->mensaje = "La referencia ya se encuentra registrada";
+            $producto['bodegas'] = $bg;
+            $valores['existe'] = "1";
+            $valores['id'] = $producto['id_producto'];
+            $valores['descripcion'] = $producto['descripcion'];
+            $valores['kgdisp'] = $producto['sumKilos'];
+            $valores['btdisp'] = $producto['sumBultos'];
+            $valores['bodegas'] = $producto['bodegas'];
+        }
+
+        $valores = json_encode($valores);
+        echo $valores;
+        // } 
+    }
+
+    public function listarLotes()
+    {
+        if (isset($_POST['buscar'])) {
+
+            $id_producto = $_POST['id'];
+            $id_bodega = $_POST['bodega'];
+
+
+            $valores = array();
+            $valores['existe'] = "0";
+
+            $valores['lotes'] = [];
+
+            $lotes = $this->model->getLotes(['idProducto' => $id_producto, 'idBodega' => $id_bodega]);
+
+            $valores['existe'] = "1";
+            foreach ($lotes as $lote) {
+
+                $valor['lote'] = $lote["lote"];
+                $valor['kgdisp'] = $lote['kilos'];
+                $valor['btdisp'] = $lote['bultos'];
+
+                array_push($valores['lotes'], $valor);
+            }
+
+
+            $valores = json_encode($valores);
+            echo $valores;
+        }
+    }
+
+
+
+    public function infoLotes()
+    {
+        if (isset($_POST['buscar'])) {
+
+            // $id_producto = "1";
+            // $id_bodega = "1";
+            // $lote = "1";
+
+            $id_producto = $_POST['id'];
+            $id_bodega = $_POST['bodega'];
+            $lote = $_POST['lote'];
+
+
+            $valores = array();
+            $valores['existe'] = "0";
+
+            $lotes = $this->model->getInfoLotes(['idProducto' => $id_producto, 'idBodega' => $id_bodega, 'lote' => $lote]);
+
+            // var_dump($lotes);
+
+            $valores['existe'] = "1";
+
+
+            $valores['lote'] = $lotes["lote"];
+            $valores['kgdisp'] = $lotes['kilos'];
+            $valores['btdisp'] = $lotes['bultos'];
+
+            $valores = json_encode($valores);
+            echo $valores;
+        }
+    }
+
+    function registrarEgreso()
+    {
+        $this->view->titulo = "Sacar Producto de inventario";
+        $mensaje = "";
+
+        if (isset($_POST['referencia'])) {
+            $id  = $_POST['id_producto'];
+            $referencia  = strtoupper($_POST['referencia']);
+            $descripcion = $_POST['descripcion-h'];
+            $bodega = $_POST['bodega'];
+            $lote = $_POST['lote'];
+            $kgDisp = $_POST['kg-disp-2-h'];
+            $btDisp = $_POST['bt-disp-2-h'];
+            $kgSacar = $_POST['kg-sacar'];
+            $btSacar = $_POST['bt-sacar'];
+
+            $producto = ['referencia' => $referencia];
+
+            if ($kgSacar > $kgDisp || $btSacar > $btDisp) {
+                $mensaje = "El numero de kilos o bultos que deseas retirar es mayor a los disponibles";
+    
+                $this->view->mensaje = $mensaje;
+                $this->view->producto = $producto;
+                $this->view->render("inventario/nuevo");
+                die();
             } else {
-                if ($this->model->update(['id' => $id, 'codigo' => $referencia, 'descripcion' => $descripcion])) {
-                } else {
-                    $this->view->mensaje = "Error al actualizar el producto";
+                $insertar = $this->model->actualizarInventario(['id_producto' => $id, 'id_bodega' => $bodega, 'lote' => $lote, 'kilos' => $kgSacar, 'bultos' => $btSacar]);
+                if ($insertar) {
+
+                    
+                    $this->render();
                 }
             }
-        }
-
-        $producto = ['id' => $id, 'codigo' => $referencia, 'descripcion' => $descripcion];
-        $this->view->titulo = "Editar Producto";
-        $this->view->producto = $producto;
-
-        if ($registrada) {
+        }else {
             $this->render();
-        } else {
-            $this->view->render('productos/editar');
         }
-    }
 
-    function eliminarProducto($param = null)
-    {
-        $id = $param[0];
-
-
-
-        if ($this->model->delete($id)) {
-            $mensaje = "Alumno eliminado correctamente";
-        } else {
-
-            $mensje = "No se pudo eliminar el alumno";
-        }
-        $this->render();
-        // echo "Se elimino " . $matricula;
-
-        // echo "mensaje";
+       
     }
 }

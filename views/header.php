@@ -7,7 +7,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="<?php echo constant('URL'); ?>public/img/apple-icon.png">
   <link rel="icon" type="image/png" href="<?php echo constant('URL'); ?>public/img/favicon.png">
   <title>
-    Soft UI Dashboard by Creative Tim
+    Control de inventario DDC
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -24,25 +24,33 @@
   <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
   <link rel="stylesheet" href="estilo.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/js/jquery-ui/jquery-ui-min.css">
+
+  <script src="<?php echo constant('URL'); ?>public/js/jquery-3.5.1.min.js"></script>
+  <script src="<?php echo constant('URL'); ?>public/js/jquery-ui/jquery-ui.min.js"></script>
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
-      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <!-- <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i> -->
       <a class="navbar-brand m-0" href="#">
-        <img src="<?php echo constant('URL'); ?>public/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">Soft UI Dashboard</span>
+        <img class="navbar-brand-img" src="<?php echo constant('URL'); ?>public/img/logo-ddc.png">
       </a>
     </div>
+
+    <br>
+    
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
-      <li class="nav-item">
-          <a id="nav-inventario" class="nav-link  " href="<?php echo constant('URL'); ?>inventario">
+      <li class="nav-item " >
+          <a id="nav-inventario" class="nav-link border-bottom" href="<?php echo constant('URL'); ?>inventario">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title>credit-card</title>
+                <title>Inventario</title>
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
                     <g transform="translate(1716.000000, 291.000000)">
@@ -58,6 +66,8 @@
             <span class="nav-link-text ms-1">Inventario</span>
           </a>
         </li>
+
+
         
         <li class="nav-item">
           <a id="nav-productos" class="nav-link" href="<?php echo constant('URL'); ?>productos">
@@ -101,9 +111,9 @@
         </li>
         
         <li class="nav-item">
-          <a class="nav-link  " href="<?php echo constant('URL') ?>otro">
+          <a class="nav-link" id="nav-movimientos" href="<?php echo constant('URL') ?>movimientos">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-              <!-- <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>box-3d-50</title>
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -116,9 +126,9 @@
                     </g>
                   </g>
                 </g>
-              </svg> -->
+              </svg>
             </div>
-            <span class="nav-link-text ms-1">Virtual Reality</span>
+            <span class="nav-link-text ms-1">Entradas y Salidas</span>
           </a>
         </li>
       </ul>
@@ -131,7 +141,7 @@
           <div class="docs-info">
             <div class="d-flex">
               <div>
-                <img src="<?php echo constant('URL'); ?>public/img/qr.png" class="img-thumbnail" me-3" alt="user1">
+                <img src="<?php echo constant('URL'); ?>public/img/qr.png" class="img-thumbnail me-3" alt="user1">
               </div>
             </div>
           </div>

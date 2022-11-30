@@ -1,4 +1,4 @@
--<?php require 'views/header.php'; ?>
+<?php require 'views/header.php'; ?>
 
 <div class="col-md-12">
   <div class="card card-user">
@@ -7,23 +7,10 @@
     </div>
 
 
-    <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
+    <?php require 'tabs.php'; ?>
 
     <div class="card-body">
-      <form method="POST" action="<?php echo constant('URL') ?>inventario/registrarEgreso" autocomplete="off">
+      <form method="POST" action="<?php echo constant('URL') ?>movimientos/registrarEgreso" autocomplete="off">
 
 
 
@@ -113,7 +100,7 @@
         <div class="row">
           <div class="col-md-3 pr-1">
             <div class="form-group">
-              <label>Kilos a sacar</label>
+              <label>Kilos a retirar</label>
               <input type="text" name="kg-sacar" id="kg-sacar" pattern="[0-9.]{1,10}$"  class="form-control" required disabled>
             </div>
           </div>
@@ -121,7 +108,7 @@
 
           <div class="col-md-3 pr-1">
             <div class="form-group">
-              <label>Bultos a sacar</label>
+              <label>Bultos a retirar</label>
               <input required  type="text" class="form-control" name="bt-sacar" pattern="[0-9.]{1,10}$" id="bt-sacar" required disabled>
             </div>
           </div>
@@ -130,8 +117,7 @@
 
         <div class="row">
         <div class="update ml-auto mr-auto">
-          <button class="btn bg-gradient-primary mb-0">Actualizar</button>
-          <a href="<?php echo constant('URL'); ?>inventario" class="btn btn-outline-secondary mb-0 ">Regresar</a>
+          <button class="btn bg-gradient-primary mb-0">Retirar Producto</button>
         </div>
       </div>
       </form>
@@ -160,7 +146,7 @@
       data: parametros,
       dataType: 'json',
       minLength: 4,
-      url: '<?php echo constant('URL'); ?>inventario/buscarPorCodigo',
+      url: '<?php echo constant('URL'); ?>movimientos/buscarPorCodigo',
       type: 'post',
       error: function() {
         // alert("Error");
@@ -213,7 +199,7 @@
     $.ajax({
       data: parametros,
       dataType: 'json',
-      url: '<?php echo constant('URL'); ?>inventario/listarLotes',
+      url: '<?php echo constant('URL'); ?>movimientos/listarLotes',
       type: 'post',
       error: function() {},
       complete: function() {
@@ -253,7 +239,7 @@
     $.ajax({
       data: parametros,
       dataType: 'json',
-      url: '<?php echo constant('URL'); ?>inventario/infoLotes',
+      url: '<?php echo constant('URL'); ?>movimientos/infoLotes',
       type: 'post',
       error: function() {
         alert("Error");
@@ -289,6 +275,14 @@
       }
     }))
   });
+</script>
+
+<script>
+ 
+  var activo = document.getElementById("tab-salida");
+
+   activo.classList.add('active');
+   activo.classList.add('disabled');
 </script>
 
 <?php require 'views/footer.php'; ?>

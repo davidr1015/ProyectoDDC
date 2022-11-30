@@ -105,6 +105,8 @@
 <script src="<?php echo constant('URL'); ?>public/js/core/bootstrap.min.js"></script>
 <script src="<?php echo constant('URL'); ?>public/js/plugins/perfect-scrollbar.min.js"></script>
 <script src="<?php echo constant('URL'); ?>public/js/plugins/smooth-scrollbar.min.js"></script>
+
+
 <script>
   var win = navigator.platform.indexOf('Win') > -1;
   if (win && document.querySelector('#sidenav-scrollbar')) {

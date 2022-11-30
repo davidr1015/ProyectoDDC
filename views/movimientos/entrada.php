@@ -1,4 +1,4 @@
--<?php require 'views/header.php'; ?>
+<?php require 'views/header.php'; ?>
 
 <div class="col-md-12">
   <div class="card card-user">
@@ -7,23 +7,10 @@
     </div>
 
 
-    <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
+    <?php require 'tabs.php'; ?>
 
     <div class="card-body">
-      <form method="POST" action="<?php echo constant('URL') ?>inventario/registrarEgreso" autocomplete="off">
+      <form method="POST" action="<?php echo constant('URL') ?>movimientos/registrarIngreso" autocomplete="off">
 
 
 
@@ -55,7 +42,7 @@
             </div>
           </div>
 
-          <div class="col-md-2 pr-1">
+          <!-- <div class="col-md-2 pr-1">
             <div class="form-group">
               <label>Kilos Disponibles</label>
               <input type="text" class="form-control" name="kg-disp" id="kg-disp" disabled required>
@@ -67,7 +54,7 @@
               <label>Bultos Disponibles</label>
               <input type="text" class="form-control" name="bt-disp" id="bt-disp" disabled required>
             </div>
-          </div>
+          </div> -->
 
         </div>
 
@@ -113,8 +100,8 @@
         <div class="row">
           <div class="col-md-3 pr-1">
             <div class="form-group">
-              <label>Kilos a sacar</label>
-              <input type="text" name="kg-sacar" id="kg-sacar" pattern="[0-9.]{1,10}$"  class="form-control" required disabled>
+              <label>Kilos a ingresar</label>
+              <input type="text" name="kg-ingresar" id="kg-ingresar" pattern="[0-9.]{1,10}$"  class="form-control" required disabled>
             </div>
           </div>
 
@@ -122,7 +109,7 @@
           <div class="col-md-3 pr-1">
             <div class="form-group">
               <label>Bultos a sacar</label>
-              <input required  type="text" class="form-control" name="bt-sacar" pattern="[0-9.]{1,10}$" id="bt-sacar" required disabled>
+              <input required  type="text" class="form-control" name="bt-ingresar" pattern="[0-9.]{1,10}$" id="bt-ingresar" required disabled>
             </div>
           </div>
 
@@ -160,7 +147,7 @@
       data: parametros,
       dataType: 'json',
       minLength: 4,
-      url: '<?php echo constant('URL'); ?>inventario/buscarPorCodigo',
+      url: '<?php echo constant('URL'); ?>movimientos/buscarTodoPorCodigo',
       type: 'post',
       error: function() {
         // alert("Error");
@@ -170,15 +157,13 @@
 
           $("#id_producto").val(valores.id);
           $("#descripcion").val(valores.descripcion);
-          $("#kg-disp").val((valores.kgdisp).toFixed(2));
-          $("#bt-disp").val(valores.btdisp);
           $("#descripcion-h").val(valores.descripcion);
           document.getElementById('bodega').disabled = false;
 
           $("#bodega").empty();
           $("#bodega").append('<option disabled selected> Selecciona una bodega </option>');
           $.each(valores.bodegas, function(id, name) {
-            $("#bodega").append('<option value=' + name.id_bodega + '>' + name.nombre + '</option>');
+            $("#bodega").append('<option value=' + name.id + '>' + name.nombre + '</option>');
           });
         } else {
           $("#id_producto").val('');
@@ -213,7 +198,7 @@
     $.ajax({
       data: parametros,
       dataType: 'json',
-      url: '<?php echo constant('URL'); ?>inventario/listarLotes',
+      url: '<?php echo constant('URL'); ?>movimientos/listarLotesIngreso',
       type: 'post',
       error: function() {},
       complete: function() {
@@ -253,7 +238,7 @@
     $.ajax({
       data: parametros,
       dataType: 'json',
-      url: '<?php echo constant('URL'); ?>inventario/infoLotes',
+      url: '<?php echo constant('URL'); ?>movimientos/infoLotes',
       type: 'post',
       error: function() {
         alert("Error");
@@ -264,10 +249,11 @@
 
       },
       success: function(valores) {
-        if (valores.existe == "1") //Aqui usamos la variable que NO use en el vídeo
+        if (valores.existe == "1") 
         {
-          document.getElementById('kg-sacar').disabled = false;
-          document.getElementById('bt-sacar').disabled = false;
+          alert("existe");
+          document.getElementById('kg-ingresar').disabled = false;
+          document.getElementById('bt-ingresar').disabled = false;
           $("#kg-disp-2").val(valores.kgdisp);
           $("#bt-disp-2").val(valores.btdisp);
           $("#kg-disp-2-h").val(valores.kgdisp);
@@ -290,5 +276,15 @@
     }))
   });
 </script>
+
+<script>
+ 
+  var activo = document.getElementById("tab-entrada");
+
+   activo.classList.add('active');
+   activo.classList.add('disabled');
+</script>
+
+
 
 <?php require 'views/footer.php'; ?>

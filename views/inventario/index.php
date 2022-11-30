@@ -53,7 +53,7 @@
                     <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $row['sumKilos'] , 2,".", ","). " Kg"; ?>
                   </td>
                   <td class="align-middle text-center text-sm">
-                    <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $row['sumBultos'] , 0,".", ","). " Bultos"; ?>
+                    <p class="text-xs font-weight-bold mb-0"><?php echo $row['sumBultos']. " Bultos"; ?>
                   </td>
 
 
@@ -114,7 +114,7 @@ foreach ($this->productos as $row) { ?>
                       <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $bodega['sumKilos'] , 2,".", ","). " Kg"; ?></p>
                     </td>
                     <td class="align-middle text-center text-sm">
-                      <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $bodega['sumBultos'] , 0,".", ","). " Bultos"; ?></p>
+                      <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $bodega['sumBultos'] , 2,".", ","). " Bultos"; ?></p>
                     </td>
                   </tr>
 
@@ -130,7 +130,7 @@ foreach ($this->productos as $row) { ?>
                     <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $lote['kilos'] , 2,".", ","). " Kg"; ?></p>
                     </td>
                     <td class="align-middle text-center text-sm">
-                    <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $lote['bultos'] , 0,".", ","). " Bultos"; ?></p>
+                    <p class="text-xs font-weight-bold mb-0"><?php echo number_format( $lote['bultos'] , 2,".", ","). " Bultos"; ?></p>
                     </td>
                   </tr>
                 <?php } 
@@ -152,5 +152,7 @@ foreach ($this->productos as $row) { ?>
 
 <?php } ?>
 
+
+<script src="<?php echo constant('URL');?>public/js/evitar-envio.js"></script>
 
 <?php require 'views/footer.php'; ?>

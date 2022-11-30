@@ -56,9 +56,7 @@ class ProductosModel extends Model
         $query = $this->db->connect()->prepare("SELECT * FROM productos WHERE id = :id");
         try {
             $query->execute(['id' => $id]);
-
             $item = $query->fetch(); 
-               
 
             return $item;
         } catch (PDOException $e) {
@@ -67,13 +65,14 @@ class ProductosModel extends Model
     }
 
     public function update($item) {
-        $query = $this->db->connect()->prepare("UPDATE productos SET codigo = :codigo, descripcion = :descripcion WHERE id = :id");
+        $query = $this->db->connect()->prepare("UPDATE productos SET codigo = :codigo, descripcion = :descripcion, foto = :foto WHERE id = :id");
 
         try {
             $query->execute([
                 'id' => $item['id'],
                 'codigo' => $item['codigo'],
-                'descripcion' => $item['descripcion']
+                'descripcion' => $item['descripcion'],
+                'foto' => $item['foto']
             ]);
             return true;
         } catch (PDOException $e) {

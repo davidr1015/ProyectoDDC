@@ -28,12 +28,14 @@
               </div>
             </div>
           </div>
-
+          
+          <div class="row">
           <div class="col-md-4 pr-1">
             <div class="form-group">
               <label>Referencia</label>
               <input type="text" name="referencia" class="form-control" value="<?php if(isset($this->producto)){echo $this->producto['referencia']; }?>" required>
             </div>
+          </div>
           </div>
 
         </div>
